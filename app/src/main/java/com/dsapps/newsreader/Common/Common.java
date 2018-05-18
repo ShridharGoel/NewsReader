@@ -24,4 +24,15 @@ public class Common
     {
         return IconsBetterIdeaClient.getClient().create(IconsBetterIdeaService.class);
     }
+
+    //https://newsapi.org/v2/sources?apiKey=547c781393be4e48ae58facda207bada
+
+    public static String getApiUrl(String source, String apiKey)
+    {
+        StringBuilder apiUrl = new StringBuilder("https://newsapi.org/v2/top-headlines?sources=");
+        return apiUrl.append(source)
+                .append("&apiKey=")
+                .append(apiKey)
+                .toString();
+    }
 }

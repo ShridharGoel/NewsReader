@@ -37,7 +37,6 @@ class ListSourceViewHolder extends RecyclerView.ViewHolder
     ItemClickListener itemClickListener;
 
     TextView sourceTitle;
-    CircleImageView sourceImage;
 
 
 
@@ -50,7 +49,6 @@ class ListSourceViewHolder extends RecyclerView.ViewHolder
     public ListSourceViewHolder(View itemView) {
         super(itemView);
 
-        sourceImage=(CircleImageView)itemView.findViewById(R.id.source_image);
         sourceTitle=(TextView)itemView.findViewById(R.id.source_name);
 
         itemView.setOnClickListener(this);
@@ -86,46 +84,26 @@ public class ListSourceAdapter extends RecyclerView.Adapter<ListSourceViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ListSourceViewHolder holder, int position) {
-        StringBuilder iconBetterAPI=new StringBuilder("https://icons.better-idea.org/allicons.json?url=");
-        iconBetterAPI.append(website.getSources().get(position).getUrl());
-
-        mService.getIconUrl(iconBetterAPI.toString())
-                .enqueue(new Callback<IconsBetterIdea>() {
-                    @Override
-                    public void onResponse(@NonNull Call<IconsBetterIdea> call, @NonNull Response<IconsBetterIdea> response) {
-                        if (response.body()!=null && response.body().getIcons()!=null && response.body().getIcons().size() > 0
-                                && !TextUtils.isEmpty(response.body().getIcons().get(0).getUrl()))
-                        {
-                            Picasso.with(context)
-                                    .load(response.body().getIcons().get(0).getUrl())
-                                    .into(holder.sourceImage);
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<IconsBetterIdea> call, Throwable t) {
-
-                    }
-                });
+    public void onBindViewHolder(@NonNull final ListSourceViewHolder holder, int position)
+    {
 
         holder.sourceTitle.setText(website.getSources().get(position).getName());
 
-        holder.setItemClickListener(new ItemClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view, int position, boolean isLongClick) {
-                Intent intent=new Intent(context, ListNews.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            public void onClick(View view) {
+                Intent intent=new Intent(context, ListNews.class);
                 intent.putExtra("website",website.getSources().get(position).getId());
-                intent.putExtra("sortBy",website.getSources().get(position).getSortByAvailable().get(0));
-                intent.putExtra("sortBy","top");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
+
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return website.getSources().size();
     }
 }
