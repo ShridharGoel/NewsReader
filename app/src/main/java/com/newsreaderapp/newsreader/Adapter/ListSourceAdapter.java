@@ -2,9 +2,10 @@ package com.dsapps.newsreader.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,8 @@ import com.dsapps.newsreader.Common.Common;
 import com.dsapps.newsreader.Interface.IconsBetterIdeaService;
 import com.dsapps.newsreader.Interface.ItemClickListener;
 import com.dsapps.newsreader.ListNews;
-import com.dsapps.newsreader.Model.IconsBetterIdea;
 import com.dsapps.newsreader.Model.Website;
 import com.dsapps.newsreader.R;
-import com.squareup.picasso.Picasso;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
@@ -37,6 +31,8 @@ class ListSourceViewHolder extends RecyclerView.ViewHolder
     ItemClickListener itemClickListener;
 
     TextView sourceTitle;
+
+
 
 
 
@@ -65,6 +61,7 @@ public class ListSourceAdapter extends RecyclerView.Adapter<ListSourceViewHolder
 
     private Context context;
     private Website website;
+
 
     IconsBetterIdeaService mService;
 
@@ -98,6 +95,14 @@ public class ListSourceAdapter extends RecyclerView.Adapter<ListSourceViewHolder
                 context.startActivity(intent);
             }
         });
+
+        if(position==website.getSources().size()-1)
+        {
+            Toast toast = Toast.makeText(context,"Powered by NewsAPI.org", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+            toast.show();
+        }
+
 
     }
 
